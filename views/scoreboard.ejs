@@ -1,0 +1,33 @@
+<%- include("partials/header"); -%>
+
+<div class="flex-fill">
+  
+  <div class="scoreTitleDiv">
+    <h1>Scoreboard</h1>
+  </div>
+
+  <table class="table spacer">
+    <thead>
+      <tr>
+        <th scope="col">Score</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <% for (let i = 0; i < scores.length; i++) { %>
+        <tr>
+          <th scope="row"><%= scores[i].score %></th>
+          <td><%= scores[i].name %></td>
+          <td><%= scores[i].email %></td>
+        </tr>
+      <% } %>
+
+    </tbody>
+  </table>
+
+</div>
+
+
+<%- include("partials/footer"); -%>

@@ -1,0 +1,81 @@
+<%- include("partials/header"); -%>
+
+  <div class="hangmanDiv">
+    <svg class="figure-svg">
+      <!-- Rod -->
+      <line class="<% if (mistakes >= 1)  {%>svg-visible<%}%>" x1="20" y1="230" x2="100" y2="230" />
+      <line class="<% if (mistakes >= 2)  {%>svg-visible<%}%>" x1="60" y1="20" x2="60" y2="225" />
+      <line class="<% if (mistakes >= 3)  {%>svg-visible<%}%>" x1="60" y1="15" x2="140" y2="15" />
+      <line class="<% if (mistakes >= 4)  {%>svg-visible<%}%>" x1="140" y1="20" x2="140" y2="45" />
+
+      <!-- Head -->
+      <circle class="<% if (mistakes >= 5)  {%>svg-visible<%}%>" cx="140" cy="70" r="20" class="figure-part" />
+      <!-- Body -->
+      <line class="<% if (mistakes >= 6)  {%>svg-visible<%}%>" x1="140" y1="95" x2="140" y2="150" class="figure-part" />
+      <!-- Arms -->
+      <line class="<% if (mistakes >= 7)  {%>svg-visible<%}%>" x1="136" y1="120" x2="120" y2="100" class="figure-part" />
+      <line class="<% if (mistakes >= 8)  {%>svg-visible<%}%>" x1="144" y1="120" x2="160" y2="100" class="figure-part" />
+      <!-- Legs -->
+      <line class="<% if (mistakes >= 9)  {%>svg-visible<%}%>" x1="138" y1="152" x2="120" y2="180" class="figure-part" />
+      <line class="<% if (mistakes >= 10)  {%>svg-visible<%}%>" x1="142" y1="152" x2="160" y2="180" class="figure-part" />
+    </svg>
+  </div>
+
+  <div class="row justify-content-center">
+    <% for (var i = 0; i < discoveredWordsArray.length; i++) { %>
+      <div class="col-lg-1 col-md-1 col-sm-3 col-3 wordCol" align="center"><h2 class="<%if (lost) {%>word-reveal<%}%>"><%= discoveredWordsArray[i] %></h2></div>
+    <% } %>
+  </div>
+
+  <div class="statusDiv">
+    <% if (lost) { %>
+
+      <h2>You Lost!</h2>
+      <a class="btn btn-outline-dark btn-lg reset-btn" href="/">Play Again</a>
+
+    <% } else if (win) { %>
+
+      <h2>You Win! Submit your Score or Play Again</h2>
+      <p>Final Score: <%= score %></p>
+      <form class="" action="/scoreSubmit" method="post">
+        <input class="input-box form-control" type="text" placeholder="Your Name" name="playerName" required>
+        <input class="input-box form-control" type="email" placeholder="Your Email" name="playerEmail" required>
+        <button class="btn btn-outline-dark btn-lg reset-btn" name="submitedScore">Submit Score</button>
+        <a class="btn btn-outline-dark btn-lg reset-btn" href="/">Play Again</a>
+      </form>
+
+
+    <% } else { %>
+
+      <a class="btn btn-outline-dark btn-lg reset-btn" href="/">Reset</a>
+
+    <% } %>
+  </div>
+
+  <div class="keysDiv row justify-content-center">
+    <% for (var i = 0; i < alphabet.length; i++) { %>
+
+      <% if (usedLetters.includes(alphabet[i])) { %>
+
+        <form class="keyForm col-lg-1 col-lg-1 col-md-1 col-sm-3 col-3" align="center">
+          <button class="keybtn usedKey btn btn-secondary btn-lg" disabled><%= alphabet[i] %></button>
+        </form>
+
+      <% } else if (lost || win) {%>
+
+        <form class="keyForm col-lg-1 col-md-1 col-sm-3 col-3" align="center">
+          <button class="keybtn usedKey btn btn-outline-dark btn-lg" disabled><%= alphabet[i] %></button>
+        </form>
+
+      <% } else { %>
+
+        <form class="keyForm col-lg-1 col-md-1 col-sm-3 col-3" align="center" action="/" method="post">
+          <button class="keybtn btn btn-outline-dark btn-lg" name="key" value=<%= alphabet[i] %>><%= alphabet[i] %></button>
+        </form>
+
+      <% } %>
+    <% } %>
+  </div>
+
+
+<%- include("partials/footer"); -%>
